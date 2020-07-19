@@ -14,6 +14,8 @@ public class ArtificialBrainBuilder {
 
   private MultiLayerNetwork network;
 
+  private boolean trainingMode = true;
+
   public ArtificialBrainBuilder setLongTermMemoryMaxSize(int newSize) {
     longTermMemoryMaxSize = newSize;
     return this;
@@ -49,6 +51,11 @@ public class ArtificialBrainBuilder {
     return this;
   }
 
+  public ArtificialBrainBuilder setTrainingMode(boolean mode) {
+    trainingMode = mode;
+    return this;
+  }
+
   public ArtificialBrain build() {
     return new ArtificialBrain(
         longTermMemoryMaxSize,
@@ -57,7 +64,8 @@ public class ArtificialBrainBuilder {
         numberOfTrainingExamplesToPickFromLongTermMemory,
         randomActionProbability,
         discountFactor,
-        network
+        network,
+        trainingMode
     );
   }
 }

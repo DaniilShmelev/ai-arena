@@ -6,18 +6,12 @@ import qucumbah.util.Util;
 
 public class ArtificialPlayerController extends PlayerController {
   private ArtificialBrain brain;
-  private boolean trainingMode = false;
 
   public ArtificialPlayerController(Player player, ArtificialBrain brain) {
     super(player);
     this.brain = brain;
   }
 
-  public void setTrainingMode(boolean trainingMode) {
-    this.trainingMode = trainingMode;
-  }
-
-  private boolean firstTick = true;
   private double[] prevVision;
   private double[] possibleActionsForPrevVision;
 
@@ -26,7 +20,9 @@ public class ArtificialPlayerController extends PlayerController {
     double[] possibleActionsForCurVision = brain.getPossibleActions(curVision);
     int curActionIndex = Util.maxIndex(possibleActionsForCurVision);
 
-    if (trainingMode && !firstTick) {
+    boolean firstTick = player.getGame().getTickNumber() == 0;
+
+    if (!firstTick) {
       brain.memorizeStateTransition(
           prevVision,
           possibleActionsForPrevVision,
@@ -40,7 +36,6 @@ public class ArtificialPlayerController extends PlayerController {
 
     prevVision = curVision;
     possibleActionsForPrevVision = possibleActionsForCurVision;
-    firstTick = false;
 
     return actions;
   }

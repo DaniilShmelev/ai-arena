@@ -50,11 +50,11 @@ public class Main {
     ArtificialBrain brain = new ArtificialBrainBuilder()
         .setNetwork(network)
         .setDiscountFactor(0)
+        .setTrainingMode(true)
         .build();
 
     var aiController = new ArtificialPlayerController(player, brain);
     // aiController.setUserIO(new UserIO());
-    aiController.setTrainingMode(true);
 
     List<PlayerController> playerControllers = new ArrayList<>();
     playerControllers.add(aiController);

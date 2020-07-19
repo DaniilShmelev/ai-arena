@@ -22,6 +22,7 @@ public class ArtificialBrain {
   private double discountFactor;
 
   private MultiLayerNetwork network;
+  private boolean trainingMode;
 
   public ArtificialBrain(
       int longTermMemoryMaxSize,
@@ -30,7 +31,8 @@ public class ArtificialBrain {
       int numberOfTrainingExamplesToPickFromLongTermMemory,
       double randomActionProbability,
       double discountFactor,
-      MultiLayerNetwork network
+      MultiLayerNetwork network,
+      boolean trainingMode
   ) {
     this.longTermMemoryMaxSize = longTermMemoryMaxSize;
     this.shortTermMemoryMaxSize = shortTermMemoryMaxSize;
@@ -46,6 +48,7 @@ public class ArtificialBrain {
     this.randomActionProbability = randomActionProbability;
 
     this.network = network;
+    this.trainingMode = trainingMode;
   }
 
   public void memorizeStateTransition(
@@ -54,6 +57,10 @@ public class ArtificialBrain {
       double[] possibleActionsForCurVision,
       double rewardForTransition
   ) {
+    if (!trainingMode) {
+      return;
+    }
+
     double curStateMaxQ = Util.maxValue(possibleActionsForCurVision);
     double targetQ = rewardForTransition + discountFactor * curStateMaxQ;
     int prevStateBestActionIndex = Util.maxIndex(possibleActionsForPrevVision);
@@ -97,7 +104,8 @@ public class ArtificialBrain {
 
     double[] possibleActions = encodedActions.toDoubleMatrix()[0];
 
-    if (Math.random() < randomActionProbability) {
+    // Agent has to try random actions if it's training
+    if (trainingMode && Math.random() < randomActionProbability) {
       double bestActionValue = Util.maxValue(possibleActions);
       int randomActionIndex = (int)(Math.random() * possibleActions.length);
       possibleActions[randomActionIndex] = bestActionValue + 0.01;

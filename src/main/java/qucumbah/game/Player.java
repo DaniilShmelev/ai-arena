@@ -11,6 +11,10 @@ public abstract class Player {
     this.game = game;
   }
 
+  public Game getGame() {
+    return game;
+  }
+
   public abstract double getReward();
 
   protected int visionLength;
