@@ -18,6 +18,7 @@ public class ArtificialBrain {
   private List<TrainingExample> longTermMemory;
   private List<TrainingExample> shortTermMemory;
 
+  private double randomActionProbability;
   private double discountFactor;
 
   private MultiLayerNetwork network;
@@ -27,6 +28,7 @@ public class ArtificialBrain {
       int shortTermMemoryMaxSize,
       int numberOfExamplesToSaveToLongTermMemory,
       int numberOfTrainingExamplesToPickFromLongTermMemory,
+      double randomActionProbability,
       double discountFactor,
       MultiLayerNetwork network
   ) {
@@ -41,6 +43,8 @@ public class ArtificialBrain {
         numberOfTrainingExamplesToPickFromLongTermMemory;
 
     this.discountFactor = discountFactor;
+    this.randomActionProbability = randomActionProbability;
+
     this.network = network;
   }
 
@@ -90,6 +94,15 @@ public class ArtificialBrain {
   public double[] getPossibleActions(double[] vision) {
     INDArray encodedVision = Nd4j.create(new double[][] { vision });
     INDArray encodedActions = network.output(encodedVision);
-    return encodedActions.toDoubleMatrix()[0];
+
+    double[] possibleActions = encodedActions.toDoubleMatrix()[0];
+
+    if (Math.random() < randomActionProbability) {
+      double bestActionValue = Util.maxValue(possibleActions);
+      int randomActionIndex = (int)(Math.random() * possibleActions.length);
+      possibleActions[randomActionIndex] = bestActionValue + 0.01;
+    }
+
+    return possibleActions;
   }
 }
