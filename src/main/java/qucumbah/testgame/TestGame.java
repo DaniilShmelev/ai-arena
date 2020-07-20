@@ -9,10 +9,9 @@ import qucumbah.game.Player;
 
 public class TestGame extends Game {
   private TestGamePlayer player;
-  private double reward;
-  private double totalReward;
 
   public TestGame() {
+    restart();
     setRandomGameState();
   }
 
@@ -28,31 +27,6 @@ public class TestGame extends Game {
 
     this.player = (TestGamePlayer)player;
     player.registerGame(this);
-
-    reward = 0;
-  }
-
-  @Override
-  public double getRewardForPlayer(Player player) {
-    if (player != this.player) {
-      throw new IllegalArgumentException("Given player isn't playing this game");
-    }
-
-    return reward;
-  }
-
-  @Override
-  public double getTotalRewardForPlayer(Player player) {
-    if (player != this.player) {
-      throw new IllegalArgumentException("Given player isn't playing this game");
-    }
-
-    return totalReward;
-  }
-
-  @Override
-  public void resetTotalReward() {
-    totalReward = 0;
   }
 
   private double[] gameState = new double[2];
@@ -76,8 +50,7 @@ public class TestGame extends Game {
     boolean rightAction = state1 ^ state2;
     boolean playerAction = playerActions[1];
 
-    reward = (playerAction == rightAction) ? 1.0 : 0.0;
-    totalReward += reward;
+    assignReward(player, (playerAction == rightAction) ? 1.0 : 0.0);
 
     setRandomGameState();
 
@@ -88,7 +61,7 @@ public class TestGame extends Game {
 
   @Override
   public void renderPlayerPOV(Canvas canvas, Player player) {
-    if (player != TestGame.this.player) {
+    if (player != this.player) {
       throw new IllegalArgumentException("Given player isn't playing this game");
     }
 
