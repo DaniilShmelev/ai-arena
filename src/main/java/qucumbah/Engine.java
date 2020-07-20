@@ -55,12 +55,14 @@ public class Engine {
     game.executeGameTick();
 
     if (game.isEnded()) {
-      Player player = controllers.get(0).player;
-      double averageReward = game.getTotalRewardForPlayer(player) / game.getTickNumber();
-      System.out.println("Average reward: " + averageReward);
+      System.out.println("The game has ended");
 
-      if (Math.abs(averageReward - 1.0) < 0.001) {
-        System.out.println("The AI is now perfect");
+      for (int playerIndex = 0; playerIndex < controllers.size(); playerIndex += 1) {
+        Player player = controllers.get(playerIndex).player;
+        double totalRewardForThisPlayer = game.getTotalRewardForPlayer(player);
+
+        System.out.println(
+            "Total reward for player " + playerIndex + ": " + totalRewardForThisPlayer);
       }
 
       game.restart();

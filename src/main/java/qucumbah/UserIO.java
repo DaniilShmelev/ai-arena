@@ -51,6 +51,14 @@ public class UserIO extends Application {
       return;
     }
 
+    if (isPressed) {
+      notifyAll();
+    }
+
     pressedKeys[keyCode] = isPressed;
+  }
+
+  public void awaitKeyPress() throws InterruptedException {
+    wait();
   }
 }
