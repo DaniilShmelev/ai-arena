@@ -2,7 +2,6 @@ package qucumbah.networks;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.deeplearning4j.nn.api.Layer.TrainingMode;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;

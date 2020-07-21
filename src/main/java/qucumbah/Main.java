@@ -21,8 +21,8 @@ import qucumbah.tictactoegame.TicTacToeGamePlayer;
 
 public class Main {
   public static void main(String[] args) {
-    // launchTicTacToeGame();
-    launchTestGame();
+    launchTicTacToeGame();
+    // launchTestGame();
   }
 
   private static void launchTicTacToeGame() {
@@ -84,7 +84,7 @@ public class Main {
 
     return new ArtificialBrainBuilder()
         .setNetwork(network)
-        .setDiscountFactor(0.8)
+        .setDiscountFactor(0.9)
         .setTrainingMode(true)
         .build();
   }

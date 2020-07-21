@@ -38,24 +38,25 @@ public class TicTacToeGame extends Game {
       throw new IllegalArgumentException("This player isn't in the game");
     }
 
-    double[] vision = new double[20];
-
-    boolean isPlayerCrosses = player == players[crossesPlayerIndex];
-
-    vision[0] = isPlayerCrosses ? 1.0 : 0.0;
+    boolean isCurrentPlayerCrosses = player == players[crossesPlayerIndex];
 
     boolean playersTurn = (
-        isCrossesTurn && isPlayerCrosses
-        || !isCrossesTurn && !isPlayerCrosses
+        isCrossesTurn && isCurrentPlayerCrosses
+        || !isCrossesTurn && !isCurrentPlayerCrosses
     );
 
-    vision[1] = playersTurn ? 1.0 : 0.0;
+    double[] vision = new double[19];
+
+    vision[0] = playersTurn ? 1.0 : 0.0;
+
+    boolean[][] currentPlayerFigures = isCurrentPlayerCrosses ? crosses : noughts;
+    boolean[][] enemyPlayerFigures = isCurrentPlayerCrosses ? noughts : crosses;
 
     for (int i = 0; i < 9; i += 1) {
       int row = i / 3;
       int col = i % 3;
-      vision[2 + i] = crosses[row][col] ? 1.0 : 0.0;
-      vision[2 + 9 + i] = noughts[row][col] ? 1.0 : 0.0;
+      vision[1 + i] = currentPlayerFigures[row][col] ? 1.0 : 0.0;
+      vision[1 + 9 + i] = enemyPlayerFigures[row][col] ? 1.0 : 0.0;
     }
 
     return vision;
@@ -83,9 +84,13 @@ public class TicTacToeGame extends Game {
     boolean noCellSpecified = row == -1;
     boolean specifiedCellIsTaken = crosses[row][col] || noughts[row][col];
 
+    final double lossReward = 0;
+    final double winReward = 1;
+    final double idleReward = 0.07;
+
     if (noCellSpecified || specifiedCellIsTaken) {
-      assignReward(currentPlayer, 0);
-      assignReward(enemyPlayer, 1);
+      assignReward(currentPlayer, lossReward);
+      assignReward(enemyPlayer, idleReward);
       end();
       return;
     }
@@ -101,19 +106,26 @@ public class TicTacToeGame extends Game {
         || !isCrossesTurn && checkIfNoughtsWon()
     );
 
+    // Victory (loss == victory of enemy player)
     if (moveLeadToVictory) {
-      assignReward(currentPlayer, 1);
-      assignReward(enemyPlayer, 0);
+      assignReward(currentPlayer, winReward);
+      assignReward(enemyPlayer, lossReward);
       end();
       return;
     }
 
     // Tie
     if (tickNumber == 9) {
-      assignReward(currentPlayer, 0);
-      assignReward(enemyPlayer, 0);
+      assignReward(currentPlayer, lossReward);
+      assignReward(enemyPlayer, lossReward);
       end();
+      return;
     }
+
+    // Game keeps going
+    assignReward(currentPlayer, idleReward);
+    assignReward(enemyPlayer, idleReward);
+    isCrossesTurn = !isCrossesTurn;
   }
 
   private boolean checkIfCrossesWon() {

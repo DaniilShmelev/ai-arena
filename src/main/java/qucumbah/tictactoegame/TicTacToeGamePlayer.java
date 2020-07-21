@@ -4,7 +4,7 @@ import qucumbah.game.Player;
 
 public class TicTacToeGamePlayer extends Player {
   public TicTacToeGamePlayer() {
-    super(20, 9);
+    super(19, 9);
   }
 
   @Override

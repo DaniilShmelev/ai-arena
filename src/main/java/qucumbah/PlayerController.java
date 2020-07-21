@@ -22,5 +22,12 @@ public abstract class PlayerController {
     this.userIO = userIO;
   }
 
-  public abstract boolean[] getActions(double[] vision, double reward);
+  protected boolean gameFirstTick;
+  public void setGameFirstTick(boolean newValue) {
+    gameFirstTick = newValue;
+  }
+
+  public abstract void showNewGameState(double[] vision, double rewardForStateTransition);
+
+  public abstract boolean[] getActions();
 }

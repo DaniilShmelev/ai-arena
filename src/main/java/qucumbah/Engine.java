@@ -13,11 +13,30 @@ public class Engine {
   private int ticksPerSecond;
   private boolean isEnded;
 
-  public Engine(Game game, List<PlayerController> controllers, int ticksPerSecond) {
+  private int gamesPlayed;
+  private int gamesToPlay;
+
+  public Engine(
+      Game game,
+      List<PlayerController> controllers,
+      int ticksPerSecond,
+      int gamesToPlay
+  ) {
     this.game = game;
     this.controllers = controllers;
     this.ticksPerSecond = ticksPerSecond;
     this.isEnded = false;
+
+    this.gamesPlayed = 0;
+    this.gamesToPlay = gamesToPlay;
+  }
+
+  public Engine(
+      Game game,
+      List<PlayerController> controllers,
+      int ticksPerSecond
+  ) {
+    this(game, controllers, ticksPerSecond, -1);
   }
 
   public void start() {
@@ -40,9 +59,9 @@ public class Engine {
       double[] controlledPlayerVision = controlledPlayer.getVision();
       double controlledPlayerReward = controlledPlayer.getReward();
 
-      boolean[] controlledPlayerActions = controller.getActions(
-          controlledPlayerVision, controlledPlayerReward);
-      controlledPlayer.setActions(controlledPlayerActions);
+      controller.setGameFirstTick(game.getTickNumber() == 0);
+      controller.showNewGameState(controlledPlayerVision, controlledPlayerReward);
+      controlledPlayer.setActions(controller.getActions());
 
       if (controller.hasUserIO()) {
         Platform.runLater(() -> {
@@ -55,7 +74,16 @@ public class Engine {
     game.executeGameTick();
 
     if (game.isEnded()) {
-      System.out.println("The game has ended");
+      for (PlayerController controller : controllers) {
+        Player controlledPlayer = controller.player;
+        double[] controlledPlayerVision = controlledPlayer.getVision();
+        double controlledPlayerReward = controlledPlayer.getReward();
+
+        controller.showNewGameState(controlledPlayerVision, controlledPlayerReward);
+      }
+
+      gamesPlayed += 1;
+      System.out.println("Game number " + gamesPlayed + " has ended");
 
       for (int playerIndex = 0; playerIndex < controllers.size(); playerIndex += 1) {
         Player player = controllers.get(playerIndex).player;
@@ -63,6 +91,11 @@ public class Engine {
 
         System.out.println(
             "Total reward for player " + playerIndex + ": " + totalRewardForThisPlayer);
+      }
+
+      if (gamesPlayed == gamesToPlay) {
+        stop();
+        return;
       }
 
       game.restart();

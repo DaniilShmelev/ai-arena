@@ -15,14 +15,13 @@ public class ArtificialPlayerController extends PlayerController {
   private double[] prevVision;
   private double[] possibleActionsForPrevVision;
 
+  private int curActionIndex;
+
   @Override
-  public boolean[] getActions(double[] curVision, double rewardForPrevAction) {
+  public void showNewGameState(double[] curVision, double rewardForPrevAction) {
     double[] possibleActionsForCurVision = brain.getPossibleActions(curVision);
-    int curActionIndex = Util.maxIndex(possibleActionsForCurVision);
 
-    boolean firstTick = player.getGame().getTickNumber() == 0;
-
-    if (!firstTick) {
+    if (!gameFirstTick) {
       brain.memorizeStateTransition(
           prevVision,
           possibleActionsForPrevVision,
@@ -31,11 +30,16 @@ public class ArtificialPlayerController extends PlayerController {
       );
     }
 
-    boolean[] actions = new boolean[player.getActionsLength()];
-    actions[curActionIndex] = true;
+    curActionIndex = Util.maxIndex(possibleActionsForCurVision);
 
     prevVision = curVision;
     possibleActionsForPrevVision = possibleActionsForCurVision;
+  }
+
+  @Override
+  public boolean[] getActions() {
+    boolean[] actions = new boolean[player.getActionsLength()];
+    actions[curActionIndex] = true;
 
     return actions;
   }
