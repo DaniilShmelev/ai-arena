@@ -15,6 +15,8 @@ public abstract class Player {
     return game;
   }
 
+  public abstract boolean canMakeAMove();
+
   public abstract double getReward();
 
   protected int visionLength;

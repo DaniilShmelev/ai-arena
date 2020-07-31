@@ -58,12 +58,16 @@ public class Main {
         .nIn(numberOfInputs)
         .nOut(32)
         .build();
-    Layer layer1 = new DenseLayer.Builder()
+    Layer layer00 = new DenseLayer.Builder()
         .nIn(32)
+        .nOut(64)
+        .build();
+    Layer layer1 = new DenseLayer.Builder()
+        .nIn(64)
         .nOut(16)
         .build();
     Layer layer2 = new OutputLayer.Builder()
-        .activation(Activation.SIGMOID)
+        .activation(Activation.IDENTITY)
         .nIn(16)
         .nOut(numberOfOutputs)
         .lossFunction(LossFunction.SQUARED_LOSS)
@@ -75,8 +79,9 @@ public class Main {
         .updater(new Sgd(0.05))
         .list()
         .layer(0, layer0)
-        .layer(1, layer1)
-        .layer(2, layer2)
+        .layer(1, layer00)
+        .layer(2, layer1)
+        .layer(3, layer2)
         .build();
 
     MultiLayerNetwork network = new MultiLayerNetwork(conf);
@@ -84,7 +89,7 @@ public class Main {
 
     return new ArtificialBrainBuilder()
         .setNetwork(network)
-        .setDiscountFactor(0.9)
+        .setDiscountFactor(0.765)
         .setTrainingMode(true)
         .build();
   }
@@ -100,7 +105,7 @@ public class Main {
         .nOut(8)
         .build();
     Layer layer1 = new OutputLayer.Builder()
-        .activation(Activation.SIGMOID)
+        .activation(Activation.IDENTITY)
         .nIn(8)
         .nOut(player.getActionsLength())
         .lossFunction(LossFunction.SQUARED_LOSS)

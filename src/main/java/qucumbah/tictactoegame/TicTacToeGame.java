@@ -33,12 +33,16 @@ public class TicTacToeGame extends Game {
     return isCrossesTurn;
   }
 
+  public boolean isPlayerCrosses(TicTacToeGamePlayer player) {
+    return player == players[crossesPlayerIndex];
+  }
+
   public double[] getVisionForPlayer(TicTacToeGamePlayer player) {
     if (players[0] != player && players[1] != player) {
       throw new IllegalArgumentException("This player isn't in the game");
     }
 
-    boolean isCurrentPlayerCrosses = player == players[crossesPlayerIndex];
+    boolean isCurrentPlayerCrosses = isPlayerCrosses(players[getCurrentPlayerIndex()]);
 
     boolean playersTurn = (
         isCrossesTurn && isCurrentPlayerCrosses
@@ -67,8 +71,10 @@ public class TicTacToeGame extends Game {
     super.executeGameTick();
 
     int currentPlayerIndex = getCurrentPlayerIndex();
+
     TicTacToeGamePlayer currentPlayer = players[currentPlayerIndex];
     TicTacToeGamePlayer enemyPlayer = players[1 - currentPlayerIndex];
+
     boolean[] currentPlayerActions = currentPlayer.getActions();
 
     int row = -1;

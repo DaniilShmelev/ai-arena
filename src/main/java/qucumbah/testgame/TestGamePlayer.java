@@ -8,6 +8,11 @@ public class TestGamePlayer extends Player {
   }
 
   @Override
+  public boolean canMakeAMove() {
+    return true;
+  }
+
+  @Override
   public double getReward() {
     return game.getRewardForPlayer(this);
   }

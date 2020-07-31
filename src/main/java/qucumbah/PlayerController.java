@@ -22,7 +22,7 @@ public abstract class PlayerController {
     this.userIO = userIO;
   }
 
-  protected boolean gameFirstTick;
+  protected boolean gameFirstTick = true;
   public void setGameFirstTick(boolean newValue) {
     gameFirstTick = newValue;
   }

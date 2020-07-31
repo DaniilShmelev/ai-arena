@@ -56,12 +56,9 @@ public class Engine {
 
     for (PlayerController controller : controllers) {
       Player controlledPlayer = controller.player;
+
       double[] controlledPlayerVision = controlledPlayer.getVision();
       double controlledPlayerReward = controlledPlayer.getReward();
-
-      controller.setGameFirstTick(game.getTickNumber() == 0);
-      controller.showNewGameState(controlledPlayerVision, controlledPlayerReward);
-      controlledPlayer.setActions(controller.getActions());
 
       if (controller.hasUserIO()) {
         Platform.runLater(() -> {
@@ -69,6 +66,14 @@ public class Engine {
           game.renderPlayerPOV(renderCanvas, controlledPlayer);
         });
       }
+
+      if (!controlledPlayer.canMakeAMove()) {
+        continue;
+      }
+
+      controller.showNewGameState(controlledPlayerVision, controlledPlayerReward);
+      controlledPlayer.setActions(controller.getActions());
+      controller.setGameFirstTick(false);
     }
 
     game.executeGameTick();
@@ -80,6 +85,7 @@ public class Engine {
         double controlledPlayerReward = controlledPlayer.getReward();
 
         controller.showNewGameState(controlledPlayerVision, controlledPlayerReward);
+        controller.setGameFirstTick(true);
       }
 
       gamesPlayed += 1;
