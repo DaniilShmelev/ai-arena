@@ -50,7 +50,7 @@ public class TestGame extends Game {
     boolean rightAction = state1 ^ state2;
     boolean playerAction = playerActions[1];
 
-    assignReward(player, (playerAction == rightAction) ? 1.0 : 0.0);
+    assignReward(player, (playerAction == rightAction) ? 15.0 : -15.0);
 
     setRandomGameState();
 

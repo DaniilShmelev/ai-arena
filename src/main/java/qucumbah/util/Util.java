@@ -81,7 +81,7 @@ public class Util {
   }
 
   public static double maxValue(double[] array) {
-    double maxValue = Double.MIN_VALUE;
+    double maxValue = Double.NEGATIVE_INFINITY;
 
     for (int i = 1; i < array.length; i += 1) {
       if (array[i] > maxValue) {

@@ -90,9 +90,9 @@ public class TicTacToeGame extends Game {
     boolean noCellSpecified = row == -1;
     boolean specifiedCellIsTaken = crosses[row][col] || noughts[row][col];
 
-    final double lossReward = 0;
-    final double winReward = 1;
-    final double idleReward = 0.07;
+    final double lossReward = -10;
+    final double winReward = 10;
+    final double idleReward = 0;
 
     if (noCellSpecified || specifiedCellIsTaken) {
       assignReward(currentPlayer, lossReward);

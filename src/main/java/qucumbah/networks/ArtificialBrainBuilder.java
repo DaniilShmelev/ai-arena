@@ -9,7 +9,7 @@ public class ArtificialBrainBuilder {
   private int numberOfExamplesToSaveToLongTermMemory = 5;
   private int numberOfTrainingExamplesToPickFromLongTermMemory = 10;
 
-  private double randomActionProbability = 0.05;
+  private double randomActionProbability = 0.2;
   private double discountFactor = 0.9;
 
   private MultiLayerNetwork network;
@@ -36,7 +36,7 @@ public class ArtificialBrainBuilder {
     return this;
   }
 
-  public ArtificialBrainBuilder randomActionProbability(double newRandomActionProbability) {
+  public ArtificialBrainBuilder setRandomActionProbability(double newRandomActionProbability) {
     randomActionProbability = newRandomActionProbability;
     return this;
   }
