@@ -44,14 +44,7 @@ public class TicTacToeGame extends Game {
 
     boolean isCurrentPlayerCrosses = isPlayerCrosses(players[getCurrentPlayerIndex()]);
 
-    boolean playersTurn = (
-        isCrossesTurn && isCurrentPlayerCrosses
-        || !isCrossesTurn && !isCurrentPlayerCrosses
-    );
-
-    double[] vision = new double[19];
-
-    vision[0] = playersTurn ? 1.0 : 0.0;
+    double[] vision = new double[18];
 
     boolean[][] currentPlayerFigures = isCurrentPlayerCrosses ? crosses : noughts;
     boolean[][] enemyPlayerFigures = isCurrentPlayerCrosses ? noughts : crosses;
@@ -59,8 +52,8 @@ public class TicTacToeGame extends Game {
     for (int i = 0; i < 9; i += 1) {
       int row = i / 3;
       int col = i % 3;
-      vision[1 + i] = currentPlayerFigures[row][col] ? 1.0 : 0.0;
-      vision[1 + 9 + i] = enemyPlayerFigures[row][col] ? 1.0 : 0.0;
+      vision[i] = currentPlayerFigures[row][col] ? 1.0 : 0.0;
+      vision[9 + i] = enemyPlayerFigures[row][col] ? 1.0 : 0.0;
     }
 
     return vision;
