@@ -52,7 +52,7 @@ public class Engine {
   }
 
   private void update() {
-    long tickStart = System.currentTimeMillis();
+    final long tickStart = System.currentTimeMillis();
 
     for (PlayerController controller : controllers) {
       Player controlledPlayer = controller.player;

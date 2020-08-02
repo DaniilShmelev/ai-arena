@@ -10,10 +10,7 @@ public class TicTacToeGamePlayer extends Player {
   @Override
   public boolean canMakeAMove() {
     TicTacToeGame game = (TicTacToeGame)this.game;
-    return (
-        game.isCrossesTurn() && game.isPlayerCrosses(this)
-        || !game.isCrossesTurn() && !game.isPlayerCrosses(this)
-    );
+    return game.isCrossesTurn() == game.isPlayerCrosses(this);
   }
 
   @Override

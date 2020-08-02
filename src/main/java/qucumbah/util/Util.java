@@ -27,8 +27,8 @@ public class Util {
 
   public static <T> List<T> pickRandomly(List<T> from, int numberOfElementsToPick) {
     if (numberOfElementsToPick > from.size()) {
-      throw new IllegalArgumentException("Can't pick " + numberOfElementsToPick + "elements" +
-          " from a list of size " + from.size());
+      throw new IllegalArgumentException("Can't pick " + numberOfElementsToPick + "elements"
+          + " from a list of size " + from.size());
     }
 
     List<T> pickedElements = new ArrayList<>(numberOfElementsToPick);

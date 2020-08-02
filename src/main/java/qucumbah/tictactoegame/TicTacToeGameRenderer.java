@@ -5,7 +5,9 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 public class TicTacToeGameRenderer {
-  private TicTacToeGameRenderer() {}
+  private TicTacToeGameRenderer() {
+
+  }
 
   public static void render(Canvas canvas, boolean[][] crosses, boolean[][] noughts) {
     GraphicsContext gc = canvas.getGraphicsContext2D();

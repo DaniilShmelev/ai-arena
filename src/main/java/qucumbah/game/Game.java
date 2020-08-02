@@ -24,7 +24,9 @@ public abstract class Game {
     ended = true;
   }
 
-  public void start() { }
+  public void start() {
+
+  }
 
   public void restart() {
     tickNumber = 0;
