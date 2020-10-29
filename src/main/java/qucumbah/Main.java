@@ -6,11 +6,11 @@ public class Main {
     Main.func2();
   }
   
-  public void func1() {
-	System.out.println("Func 1");
+  public static void func1() {
+    System.out.println("Func 1");
   }
   
-  public void func2() {
-	System.out.println("Func 2");
+  public static void func2() {
+    System.out.println("Func 2");
   }
 }
