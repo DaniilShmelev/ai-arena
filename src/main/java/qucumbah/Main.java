@@ -2,8 +2,8 @@ package qucumbah;
 
 public class Main {
   public static void main(String[] args) {
-    func1();
-	func2();
+    Main.func1();
+    Main.func2();
   }
   
   public void func1() {
